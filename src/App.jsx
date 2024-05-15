@@ -25,26 +25,17 @@ function App() {
   const jsx = pokemons?.map((v, i) => <Card key={i} pokemon={!pokemons?null:pokemons[i]} del={()=>del(i)} setCardPointer={()=>{setCardPointer(i); setShow(true);}}/>);
 
   const modalcss = `
-  .modal {
-    text-align: center;
-    padding: 0!important;
-  }
-  .modal:before {
-    content: '';
-    display: inline-block;
-    height: 100%;
-    vertical-align: middle;
-    margin-right: -50%;
-  }
-  .modal-dialog {
-    display: inline-block;
-    vertical-align: middle;
+  .d-modal{
+    max-width: 75%;
   }
   .modal-content{
-    width:1450px;
-    height:850px;
     background-color:#2f1b35;
+    height: 85vh;
   }
+  .btn-close {
+    background-color:#dc3545;
+  }
+  
   `;
   return (
     <>

@@ -2,9 +2,10 @@ export class Pokemon{
     constructor(name, abilities, moves, height, characteristic, image ){
         this.name = name;
         this.abilities = abilities;
-        this.moves = moves;
+        console.log(characteristic);
+        this.moves = moves.slice(0, 4);
         this.height = height;
-        this.characteristic = characteristic
+        this.characteristic = characteristic.description;
         this.image = image;
     }
 
