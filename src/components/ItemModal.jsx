@@ -1,7 +1,7 @@
 import { Button, Modal, Row, Col } from "react-bootstrap";
 function ItemModal({ pokemon, show, close }) {
-    const abilities = pokemon.abilities.map((p) => <p>{p.ability.name}</p>);
-    const moves = pokemon.moves.map((p) => <p>{p.move.name}</p>);
+    const abilities = pokemon.abilities.map((p, i) => <p key={i}>{p.ability}</p>);
+    const moves = pokemon.moves.map((p, i) => <p key={i}>{p.move}</p>);
     return (
         
       <Modal centered dialogClassName="d-modal"  variant="" aria-hidden="true" show={show} onHide={close} className="text-light">

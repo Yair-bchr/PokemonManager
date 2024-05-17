@@ -10,9 +10,9 @@ function Card({ pokemon, del, setCardPointer }) {
             style={{position:'absolute', top:'0', right:'0'}}>Delete</button>
           <img src={pokemon?.image} alt="pokemon" className="img-fluid card-img-top p-4"/>
           <div className="card-body">
-            <Button variant="card-title text-light rounded-4 bg-black text-center w-100"  data-bs-toggle="modal" data-bs-target="#item-modal" onClick={setCardPointer}>{pokemon?.name}</Button>
-            <p className="card-text text-primary rounded-4 text-center" style={{backgroundColor:'lightgray'}}>{!pokemon?null:pokemon.abilities[0].ability.name}</p>
-            <p className="card-text text-primary rounded-4 text-center" style={{backgroundColor:'lightgray'}}>{!pokemon?(<div className="w-100 h-100 bg-primary"></div>):pokemon.moves[0].move.name}</p>
+            <Button variant="card-title text-light rounded-4 bg-black text-center w-100" onClick={setCardPointer}>{pokemon?.name}</Button>
+            <p className="card-text text-primary rounded-4 text-center" style={{backgroundColor:'lightgray'}}>{!pokemon?null:pokemon.abilities[0]}</p>
+            <p className="card-text text-primary rounded-4 text-center" style={{backgroundColor:'lightgray'}}>{!pokemon?(<div className="w-100 h-100 bg-primary"></div>):pokemon.moves[0]}</p>
           </div>
         </div>
       )
