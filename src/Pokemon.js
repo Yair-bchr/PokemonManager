@@ -1,3 +1,5 @@
+export const ENGLISH = 7;
+const IMG_FRONT = "front_default";
 export class Pokemon{
     constructor(name, abilities, moves, height, characteristic, image ){
         this.name = name;
@@ -9,7 +11,7 @@ export class Pokemon{
     }
 
     getValues(){
-        return new this.constructor(this.name, this.abilities.slice(0, 4).map((a) => a.ability.name), this.moves.slice(0, 4).map((m) => m.move.name), this.height, this.characteristic.descriptions[7].description, this.image);
+        return new this.constructor(this.name, this.abilities.slice(0, 4).map((a) => a.ability.name), this.moves.slice(0, 4).map((m) => m.move.name), this.height, this.characteristic.descriptions[ENGLISH].description, this.image);
     }
 
     static async randPokemons(){
@@ -22,7 +24,7 @@ export class Pokemon{
         let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${this.getRndInteger(1, 1025)}/`);
         const {name, abilities, moves, height, sprites, ...rest} = await response.json();
         const characteristic = await this.randCharacteristic();
-        return new this(name, abilities, moves, height, characteristic, sprites["front_default"]);
+        return new this(name, abilities, moves, height, characteristic, sprites[IMG_FRONT]);
     }
 
     static async randCharacteristic(){

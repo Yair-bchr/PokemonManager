@@ -1,8 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
 import { Button, Modal, Row, Col, Form } from "react-bootstrap";
-import { Pokemon } from "../Pokemon";
+import { ENGLISH, Pokemon } from "../Pokemon";
+import SelectsRow from "./SelectsRow";
+const MAX_HEIGHT = 2000;
 function AddItemModal({ show, close, addItem }) {
-    //values containing the what is filled in the forn
+    //values containing the what is filled in the form.
+    //moves and abilites are arrays with each values for a BS select field, which is why 
     const [pokemonId, setPokemonId] = useState("");
     const [moves, setMoves] = useState(Array(4).fill(""));
     const [abilities, setAbilities] = useState(Array(2).fill(""));
@@ -13,11 +16,8 @@ function AddItemModal({ show, close, addItem }) {
     const [abilityChoices, setAbilityChoices] = useState();
     //random fetched value from api
     const [characteristic, setCharacteristic] = useState("");
-
     // console.count("AddItemModal")
     const nameChoicesjsx = !nameChoices ? "" : nameChoices.map((n, i) => <option value={i} key={i}>{n}</option>);
-    const moveChoicesjsx = !moveChoices ? "" : moveChoices.map((n, i) => <option value={i} key={i}>{n}</option>);
-    const abilityChoicesjsx = !abilityChoices ? "" : abilityChoices.map((n, i) => <option value={i} key={i}>{n}</option>);
     const img = !pokemonId ? null : `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${Number(pokemonId)+1}.png`;
 
     useEffect(() => {
@@ -40,7 +40,7 @@ function AddItemModal({ show, close, addItem }) {
 
     const isNotValid = !pokemonId || !height
         || abilities.reduce((acc, v) => acc || !v, false)//looks for atleast one empty ability
-        || moves.reduce((acc, v) => acc || !v, false);
+        || moves.reduce((acc, v) => acc || !v, false);//looks for atleast one empty move
 
     useEffect(() => {
         if (!!(pokemonId)) {
@@ -55,25 +55,25 @@ function AddItemModal({ show, close, addItem }) {
 
     useEffect(() => {
         Pokemon.randCharacteristic()
-            .then((c) => setCharacteristic(c.descriptions[7].description))
+            .then((c) => setCharacteristic(c.descriptions[ENGLISH].description))
             .catch((e) => console.log(e));
     }, [handleReset]);
 
-
-
-    const setArtibute = (artibute, index, value) => {
-        const set = (prev) => {
-            const temp = [...prev];
-            temp[index] = value;
-            return temp;
-        }
-        switch (artibute) {
-            case "abilities":
-                setAbilities(set);
-                break;
-            case "moves":
-                setMoves(set);
-                break;
+    const setArtibute = (artibute) => {
+        return (index, value) => {
+            const set = (prev) => {
+                const temp = [...prev];
+                temp[index] = value;
+                return temp;
+            }
+            switch (artibute) {
+                case "abilities":
+                    setAbilities(set);
+                    break;
+                case "moves":
+                    setMoves(set);
+                    break;
+            }
         }
     }
 
@@ -85,7 +85,7 @@ function AddItemModal({ show, close, addItem }) {
             <Modal.Body className="d-flex justify-content-between">
                 <div className="w-50">
                     <h2 className="m-3">Create A New Pokémon</h2>
-                    <div className="m-4 card bg-light w-75 container text-center" style={{ maxHeight: '75%' }}>
+                    <div className="m-4 card bg-light w-75 container text-center">
                         <br />
                         <Row className="p-1">
                             <Col>Name:</Col>
@@ -97,48 +97,13 @@ function AddItemModal({ show, close, addItem }) {
                         </Row>
                         <Row className="p-1">
                             <Col>Abilities:</Col>
-                            <Col>
-                                <Form.Group as={Row} className="mb-3">
-                                    <Col>
-                                        <Form.Select value={abilities[0]} onChange={(e) => setArtibute("abilities", 0, e.target.value)} disabled={!pokemonId}>
-                                            <option value=""></option>{abilityChoicesjsx}
-                                        </Form.Select>
-                                    </Col>
-                                    <Col>
-                                        <Form.Select value={abilities[1]} onChange={(e) => setArtibute("abilities", 1, e.target.value)} disabled={!pokemonId}>
-                                            <option value=""></option>{abilityChoicesjsx}
-                                        </Form.Select>
-                                    </Col>
-                                </Form.Group>
-                            </Col>
+                            <Col><SelectsRow artibute={abilities} artibuteChoices={abilityChoices} setArtibute={setArtibute("abilities")} constant={0} disabled={!pokemonId}/></Col>
                         </Row>
                         <Row className="p-1">
                             <Col>Moves:</Col>
                             <Col>
-                                <Form.Group as={Row} className="mb-3">
-                                    <Col>
-                                        <Form.Select value={moves[0]} onChange={(e) => setArtibute("moves", 0, e.target.value)} disabled={!pokemonId}>
-                                            <option value=""></option>{moveChoicesjsx}
-                                        </Form.Select>
-                                    </Col>
-                                    <Col>
-                                        <Form.Select value={moves[1]} onChange={(e) => setArtibute("moves", 1, e.target.value)} disabled={!pokemonId}>
-                                            <option value=""></option>{moveChoicesjsx}
-                                        </Form.Select>
-                                    </Col>
-                                </Form.Group>
-                                <Form.Group as={Row} className="mb-3">
-                                    <Col>
-                                        <Form.Select value={moves[2]} onChange={(e) => setArtibute("moves", 2, e.target.value)} disabled={!pokemonId}>
-                                            <option value=""></option>{moveChoicesjsx}
-                                        </Form.Select>
-                                    </Col>
-                                    <Col>
-                                        <Form.Select value={moves[3]} onChange={(e) => setArtibute("moves", 3, e.target.value)} disabled={!pokemonId}>
-                                            <option value=""></option>{moveChoicesjsx}
-                                        </Form.Select>
-                                    </Col>
-                                </Form.Group>
+                                <SelectsRow artibute={moves} artibuteChoices={moveChoices} setArtibute={setArtibute("moves")} constant={0} disabled={!pokemonId}/>
+                                <SelectsRow artibute={moves} artibuteChoices={moveChoices} setArtibute={setArtibute("moves")} constant={2} disabled={!pokemonId}/>
                             </Col>
                         </Row>
                         <Row className="p-1">
@@ -146,7 +111,7 @@ function AddItemModal({ show, close, addItem }) {
                             <Col>
                                 <Form.Group as={Row} className="mb-3">
                                     <Col>
-                                        <Form.Control type="number" value={height} onChange={(e) => setHeight(e.target.value)} disabled={!pokemonId} placeholder="Enter height..." />
+                                        <Form.Control type="number" value={height} onChange={(e) => {if(e.target.value<=MAX_HEIGHT)setHeight(e.target.value)}} disabled={!pokemonId} placeholder="Enter height..." />
                                     </Col>
                                     <Col sm="auto" className="text-center text-muted border rounded" style={{ transform: 'translateX(-25%)' }}>cm</Col>
                                 </Form.Group>
@@ -176,15 +141,10 @@ function AddItemModal({ show, close, addItem }) {
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="primary" onClick={handleSave} disabled={isNotValid}>
-                    Save
-                </Button>
-                <Button variant="warning" onClick={handleReset} disabled={!pokemonId}>
-                    Reset
-                </Button>
+                <Button variant="primary" onClick={handleSave} disabled={isNotValid}>Save</Button>
+                <Button variant="warning" onClick={handleReset} disabled={!pokemonId}>Reset</Button>
             </Modal.Footer>
         </Modal>
     )
 }
-
 export default AddItemModal

@@ -13,7 +13,7 @@ function ItemModal({ pokemon, show, close }) {
                 <h2 className="m-5">{pokemon.name}</h2>
                 <div className="m-4 card bg-light w-100 container text-center">
                     <br/>
-                    <Row className="bold" style={{fontFamily:'courier'}}>
+                    <Row className="bold">
                         <Col>Abilities</Col>
                         <Col>Moves</Col>
                     </Row>
@@ -21,12 +21,12 @@ function ItemModal({ pokemon, show, close }) {
                         <Col>{abilities}</Col>
                         <Col>{moves}</Col>
                     </Row>
-                    <Row className="bold" style={{fontFamily:'courier'}}>
+                    <Row className="bold">
                         <Col>Height</Col>
                         <Col>Characteristic</Col>
                     </Row>
                     <Row className="fst-italic">
-                        <Col>{pokemon.height*10}cm</Col>
+                        <Col>{pokemon.height}cm</Col>
                         <Col>{pokemon.characteristic}</Col>
                     </Row>
                     <br/>

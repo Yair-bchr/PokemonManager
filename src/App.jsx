@@ -8,6 +8,7 @@ function App() {
   const [cardPointer, setCardPointer] = useState(null);
   const [showItemModal, setShowItemModal] = useState(false);
   const [showAddItemModal, setShowAddItemModal] = useState(false);
+    // console.count("app")
 
   useEffect(() => {
     Pokemon.randPokemons()
@@ -15,15 +16,15 @@ function App() {
       .catch((e) => console.log(e));
   }, []);
 
-  const del = (i) => {
+  const deleteItem = (i) => {
     let p = [...pokemons];
     p.splice(i, 1);
     setPokemons(p);
   };
 
-  const jsx = pokemons?.map((v, i) => <Card i={i} key={i} pokemon={!pokemons ? null : pokemons[i]} del={() => del(i)} setCardPointer={() => { setCardPointer(i); setShowItemModal(true); }} />);
+  const jsx = pokemons?.map((v, i) => <Card i={i} key={i} pokemon={!pokemons ? null : pokemons[i]} deleteItem={() => deleteItem(i)} setCardPointer={() => { setCardPointer(i); setShowItemModal(true); }} />);
 
-  const modalcss = `
+  const customcss = `
   .d-modal{
     max-width: 75%;
   }
@@ -43,11 +44,22 @@ function App() {
   .image-container:active img {
     transform: scale(0.95); 
   }
+  .bold{
+    font-family:courier;
+  }
+  .btn-sm{
+    position:absolute;
+    top:0;
+    right:0;
+  }
+  .lightgray{
+    background-color:lightgray;
+  }
   `;
   return (
     <>
-      <style>{modalcss}</style>
-      {cardPointer !== null && <ItemModal pokemon={pokemons[cardPointer]} show={showItemModal} close={() => setShowItemModal(false)} />}
+      <style>{customcss}</style>
+      {cardPointer !== null && pokemons[cardPointer] !== undefined && <ItemModal pokemon={pokemons[cardPointer]} show={showItemModal} close={() => setShowItemModal(false)} />}
       <AddItemModal addItem={(pokemon)=>setPokemons(prev => [...prev, pokemon])} show={showAddItemModal} close={() => setShowAddItemModal(false)} />
 
       <h1 className=" alert text-center text-light">Pokémon Manager</h1>
@@ -61,5 +73,4 @@ function App() {
     </>
   )
 }
-
 export default App
