@@ -31,6 +31,7 @@ export class Pokemon{
     }
 
     static async getPokemon(i){
+        if(i<1) throw new Error("invalin pokemon ID: "+i)
         let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${i}/`)
         return await response.json();
     }

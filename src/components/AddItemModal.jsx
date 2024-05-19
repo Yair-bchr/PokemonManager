@@ -2,21 +2,23 @@ import { useState, useEffect, useCallback } from "react";
 import { Button, Modal, Row, Col, Form } from "react-bootstrap";
 import { Pokemon } from "../Pokemon";
 function AddItemModal({ show, close, addItem }) {
+    //values containing the what is filled in the forn
     const [pokemonId, setPokemonId] = useState("");
     const [moves, setMoves] = useState(Array(4).fill(""));
     const [abilities, setAbilities] = useState(Array(2).fill(""));
-
+    const [height, setHeight] = useState("");
+    //states that contains the form select options values for each form select
     const [nameChoices, setNameChoices] = useState();
     const [moveChoices, setMoveChoices] = useState();
     const [abilityChoices, setAbilityChoices] = useState();
-
+    //random fetched value from api
     const [characteristic, setCharacteristic] = useState("");
-    const [height, setHeight] = useState("");
 
+    // console.count("AddItemModal")
     const nameChoicesjsx = !nameChoices ? "" : nameChoices.map((n, i) => <option value={i} key={i}>{n}</option>);
     const moveChoicesjsx = !moveChoices ? "" : moveChoices.map((n, i) => <option value={i} key={i}>{n}</option>);
     const abilityChoicesjsx = !abilityChoices ? "" : abilityChoices.map((n, i) => <option value={i} key={i}>{n}</option>);
-    const img = !pokemonId ? null : `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png`;
+    const img = !pokemonId ? null : `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${Number(pokemonId)+1}.png`;
 
     useEffect(() => {
         Pokemon.getAllNames()
@@ -41,8 +43,8 @@ function AddItemModal({ show, close, addItem }) {
         || moves.reduce((acc, v) => acc || !v, false);
 
     useEffect(() => {
-        if (!!pokemonId) {
-            Pokemon.getPokemon(pokemonId)
+        if (!!(pokemonId)) {
+            Pokemon.getPokemon(Number(pokemonId)+1)
                 .then((pokemon) => {
                     setAbilityChoices(pokemon.abilities.map((a) => a.ability.name));
                     setMoveChoices(pokemon.moves.map((m) => m.move.name));
@@ -76,7 +78,6 @@ function AddItemModal({ show, close, addItem }) {
     }
 
     return (
-
         <Modal centered dialogClassName="d-modal" variant="" aria-hidden="true" show={show} onHide={close} className="text-light">
             <Modal.Header closeButton >
                 <Modal.Title className="text-info">New Pokémon</Modal.Title>

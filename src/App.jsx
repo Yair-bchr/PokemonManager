@@ -11,8 +11,8 @@ function App() {
 
   useEffect(() => {
     Pokemon.randPokemons()
-      .then((pokemons) => setPokemons(pokemons.map((p) => p.getValues()))
-      .catch((e) => console.log(e)));
+      .then((pokemons) => setPokemons(pokemons.map((p) => p.getValues())))
+      .catch((e) => console.log(e));
   }, []);
 
   const del = (i) => {
