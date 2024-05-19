@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react'
-
-// import './App.css'
 import { Pokemon } from "./Pokemon";
 import Card from './components/Card';
 import ItemModal from "./components/ItemModal";
@@ -11,11 +9,10 @@ function App() {
   const [showItemModal, setShowItemModal] = useState(false);
   const [showAddItemModal, setShowAddItemModal] = useState(false);
 
-
   useEffect(() => {
     Pokemon.randPokemons()
-      .then((pokemons) => setPokemons(pokemons.map((p) => p.getValues())))
-      .catch((e) => console.log(e));
+      .then((pokemons) => setPokemons(pokemons.map((p) => p.getValues()))
+      .catch((e) => console.log(e)));
   }, []);
 
   const del = (i) => {
@@ -32,7 +29,6 @@ function App() {
   }
   .modal-content{
     background-color:#2f1b35;
-    height: 88vh;
   }
   .btn-close {
     background-color:#dc3545;
@@ -42,10 +38,10 @@ function App() {
     width:13rem;
   }
   .image-container img {
-    transition: transform 0.1s ease; /* Adjust the duration as needed */
+    transition: transform 0.1s ease;
   }
   .image-container:active img {
-    transform: scale(0.95); /* You can adjust the scale value as needed */
+    transform: scale(0.95); 
   }
   `;
   return (
@@ -53,9 +49,6 @@ function App() {
       <style>{modalcss}</style>
       {cardPointer !== null && <ItemModal pokemon={pokemons[cardPointer]} show={showItemModal} close={() => setShowItemModal(false)} />}
       <AddItemModal addItem={(pokemon)=>setPokemons(prev => [...prev, pokemon])} show={showAddItemModal} close={() => setShowAddItemModal(false)} />
-      {/* <Button variant="primary" onClick={()=>setShowItemModal(true) }>
-        Launch demo modal
-      </Button> */}
 
       <h1 className=" alert text-center text-light">Pokémon Manager</h1>
       <div className="container-fluid d-flex flex-wrap">
@@ -65,9 +58,6 @@ function App() {
           </div>
         )])}
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }

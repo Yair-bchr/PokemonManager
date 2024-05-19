@@ -9,10 +9,10 @@ function AddItemModal({ show, close, addItem }) {
     const [nameChoices, setNameChoices] = useState();
     const [moveChoices, setMoveChoices] = useState();
     const [abilityChoices, setAbilityChoices] = useState();
-    
+
     const [characteristic, setCharacteristic] = useState("");
     const [height, setHeight] = useState("");
-    
+
     const nameChoicesjsx = !nameChoices ? "" : nameChoices.map((n, i) => <option value={i} key={i}>{n}</option>);
     const moveChoicesjsx = !moveChoices ? "" : moveChoices.map((n, i) => <option value={i} key={i}>{n}</option>);
     const abilityChoicesjsx = !abilityChoices ? "" : abilityChoices.map((n, i) => <option value={i} key={i}>{n}</option>);
@@ -37,11 +37,11 @@ function AddItemModal({ show, close, addItem }) {
     }
 
     const isNotValid = !pokemonId || !height
-            || abilities.reduce((acc, v) => acc || !v, false)//looks for atleast one empty ability
-            || moves.reduce((acc, v) => acc || !v, false);
+        || abilities.reduce((acc, v) => acc || !v, false)//looks for atleast one empty ability
+        || moves.reduce((acc, v) => acc || !v, false);
 
     useEffect(() => {
-        if(!!pokemonId){
+        if (!!pokemonId) {
             Pokemon.getPokemon(pokemonId)
                 .then((pokemon) => {
                     setAbilityChoices(pokemon.abilities.map((a) => a.ability.name));
@@ -53,17 +53,17 @@ function AddItemModal({ show, close, addItem }) {
 
     useEffect(() => {
         Pokemon.randCharacteristic()
-                .then((c) => setCharacteristic(c.descriptions[7].description))
-                .catch((e) => console.log(e));
+            .then((c) => setCharacteristic(c.descriptions[7].description))
+            .catch((e) => console.log(e));
     }, [handleReset]);
 
-    
+
 
     const setArtibute = (artibute, index, value) => {
         const set = (prev) => {
-            const temp = [...prev]; 
-            temp[index] = value; 
-            return temp; 
+            const temp = [...prev];
+            temp[index] = value;
+            return temp;
         }
         switch (artibute) {
             case "abilities":
@@ -83,8 +83,8 @@ function AddItemModal({ show, close, addItem }) {
             </Modal.Header>
             <Modal.Body className="d-flex justify-content-between">
                 <div className="w-50">
-                    <h2 className="m-5">Create A New Pokémon</h2>
-                    <div className="m-4 card bg-light w-75 container text-center" style={{maxHeight:'75%'}}>
+                    <h2 className="m-3">Create A New Pokémon</h2>
+                    <div className="m-4 card bg-light w-75 container text-center" style={{ maxHeight: '75%' }}>
                         <br />
                         <Row className="p-1">
                             <Col>Name:</Col>
@@ -145,7 +145,7 @@ function AddItemModal({ show, close, addItem }) {
                             <Col>
                                 <Form.Group as={Row} className="mb-3">
                                     <Col>
-                                        <Form.Control type="number" value={height} onChange={(e)=>setHeight(e.target.value)} disabled={!pokemonId} placeholder="Enter height..."/>
+                                        <Form.Control type="number" value={height} onChange={(e) => setHeight(e.target.value)} disabled={!pokemonId} placeholder="Enter height..." />
                                     </Col>
                                     <Col sm="auto" className="text-center text-muted border rounded" style={{ transform: 'translateX(-25%)' }}>cm</Col>
                                 </Form.Group>
@@ -159,14 +159,19 @@ function AddItemModal({ show, close, addItem }) {
                         </Row>
                         <br />
                     </div>
-                    {!pokemonId && <p className="text-danger m-4">* Choose a name to start creating a pokémon.</p>}
-                    <p className="text-info m-4">* Characteristics are determined by the game engine at the time of a pokemon's capture and cannot be chosen.</p>
                 </div>
-                <div className="w-50 d-flex align-items-center justify-content-center">
+                <div className="w-50 d-flex align-content-around  flex-wrap justify-content-center">
                     <div className="w-50">
                         <img src={img} className={`img-fluid card-img-top p-4 ${img !== null && "border border-white-50"}`} />
                         <p className="bg-danger text-light m-1 text-center lead text-uppercase">{!pokemonId ? null : nameChoices[pokemonId]}</p>
                     </div>
+                    <div>
+                        {!pokemonId && <p className="text-danger m-4">* Choose a name to start creating a pokémon.</p>}
+                        <p className="text-info m-4">* Characteristics are determined by the game engine at the time of a pokemon's capture and cannot be chosen.</p>
+                    </div>
+                </div>
+                <div className="align-self-end">
+
                 </div>
             </Modal.Body>
             <Modal.Footer>
